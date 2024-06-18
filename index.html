@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Cadbury World VR Experience</title>
+    <meta name="description" content="A simple imitation of the Cadbury World Experience in Bournville, Birmingham">
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.1.0/dist/aframe-physics-system.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.misc.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <!-- <script src="https://unpkg.com/super-hands@^3.0.3/dist/super-hands.min.js"></script> WHY WONT GRABBABLE WORK D: !-->
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <a-scene physics="debug: true; gravity: 2.8;">
+        <a-assets>
+            <img id="groundTexture" src="assets/textures/floor.png">
+            <img id="skyTexture" src="assets/textures/skybox.png">
+            <a-asset-item id="TeaShop" src="assets/Models/TeaShop.glb"></a-asset-item>
+            <a-asset-item id="TeaShopInterior" src="assets/Models/teaShopInterior.glb"></a-asset-item>
+            <a-asset-item id="AztecScene" src="assets/Models/aztec_temple.glb"></a-asset-item>
+            <a-asset-item id="AztecDeposit" src="assets/Models/aztec_vending_machine.glb"></a-asset-item>
+            <a-asset-item id="cocoaBean" src="assets/Models/cocoa_pod.glb"></a-asset-item>
+            <audio id="introNar" src="assets/voices/intro.mp3" preload="auto"></audio>
+            <audio id="aztecNar" src="assets/voices/aztec.mp3" preload="auto"></audio>
+            <audio id="teaShopNar" src="assets/voices/bullstreet.mp3"></audio>
+            <audio id="unlockClunk" src="assets/sounds/unlockClunk.mp3"></audio>
+            <img id="aztecMan" src="assets/textures/aztecMan.png">
+            <img id="johnCadbury" src="assets/textures/johnCadburyPortrait.jpg">
+            <video id="teashopHistory" src="assets/videos/CadburyHistory.mp4"></video>
+            <audio id="AmtFtgNar" src="assets/voices/amateur_footage.mp3"></audio>
+            <video id="ad1" loop="false" src="assets/videos/eyebrowAD.mp4"></video>
+            <video id="ad2" loop="false" src="assets/videos/gorillaAD.mp4"></video>
+            <video id="ad3" loop="false" src="assets/videos/caramelAD.mp4"></video>
+            <img id="text1" src="assets/textures/adsText.png">
+            <img id="text2" src="assets/textures/newChocText.png">
+            <img id="crmlBny" src="assets/textures/caramel_bunny.png">
+            <img id="freddo" src="assets/textures/freddo.png">
+            <img id="guide" src="assets/textures/arrow.png">
+            <audio id="conclusion" src="assets/voices/conclusion.mp3"></audio>
+        </a-assets>
+
+        <a-entity sound="src: #introNar; on:click; max-distance: 5; distance-model: linear;">
+            <a-camera>
+                <a-cursor></a-cursor>
+            </a-camera>
+        </a-entity>
+
+        <a-sky src="#skyTexture"></a-sky>
+
+        <a-plane src="#groundTexture"
+                 rotation="-90 0 0"
+                 width="100"
+                 height="100">
+        </a-plane>
+
+        <a-image src="#guide"
+                 id="step1"
+                 position="0 1.6 -9"
+                 rotation="0 0 180"
+                 scale="3 3 3">
+        </a-image>
+
+        <a-image src="#guide"
+                 id="step2"
+                 position="-12 1.6 -20"
+                 rotation="0 -30 0"
+                 scale="3 3 3"
+                 visible="false">
+        </a-image>
+
+        <a-image src="#guide"
+                 id="step3"
+                 position="-24 1.6 -24"
+                 rotation="0 45 0"
+                 scale="3 3 3"
+                 visible="false">
+        </a-image>
+
+        <a-image src="#aztecMan"
+                 position="-20 1.5 -9"
+                 rotation="0 90 0"
+                 scale="3 3 3"
+                 sound="src: #aztecNar;
+                        on:click;
+                        max-distance: 5;
+                        distance-model: linear;"
+                 class="interactable">
+        </a-image>
+         
+        <a-gltf-model src="#AztecScene"
+                      position="-17.5 0 -10"
+                      rotation="0 90 0"
+                      scale="0.01 0.01 0.01">
+        </a-gltf-model>
+
+        <a-gltf-model src="#AztecDeposit"
+                      position="-29 2.5 -10"
+                      rotation="0 90 0"
+                      scale="1.5 1.5 1.5">
+        </a-gltf-model>
+
+        <a-gltf-model id="cocoaPod"
+                      class="interactable"
+                      src="#cocoaBean"
+                      position="-24 1.5 -10"
+                      rotation="0 0 0"
+                      scale="0.005 0.005 0.005"
+                      sound="src: #unlockClunk;
+                             on:click;
+                             max-distance: 10;"
+                      event-set__respos="_event: click; position: -28.5 1.8 -10.33"
+                      event-set__visible0="_target: #teaShop; _event: click; visible: true"
+                      event-set__visible1="_target: #teaShop1; _event: click; visible: true"
+                      event-set__visible2="_target: #teaShop2; _event: click; visible: true"
+                      event-set__visible3="_target: #teaShop3; _event: click; visible: true"
+                      event-set__visible4="_target: #teaShop4; _event: click; visible: true"
+                      event-set__visible5="_target: #step1; _event: click; visible: false"
+                      event-set__visible6="_target: #step2; _event: click; visible: true">
+        </a-gltf-model>
+                 <!-- dynamic-body="shape: box" 
+                      grabbable (this is making me lose my mind)-->
+
+        <a-gltf-model id="teaShop"
+                      src="#TeaShop"
+                      class="teaShop"
+                      position="27.5 0 -20"
+                      rotation="0 -90 0"
+                      scale="1 1 1"
+                      visible="false">
+        </a-gltf-model>
+
+        <a-gltf-model id="teaShop1"
+                      src="#TeaShopInterior"
+                      class="teaShop"
+                      position="21.5 0 -20"
+                      rotation="0 -90 0"
+                      scale="0.6 0.6 0.6"
+                      visible="false">
+        </a-gltf-model>
+
+        <a-image id="teaShop2"
+                 src="#johnCadbury"
+                 position="20 1.5 -21"
+                 rotation="0 -42 0"
+                 scale="1 1 1"
+                 sound="src: #teaShopNar;
+                        on:click;
+                        max-distance: 5;
+                        distance-model: linear;"
+                 class="teaShop"
+                 visible="false"
+                 event-set__visible0="_target: #step2; _event: click; visible: false"
+                 event-set__visible1="_target: #step3; _event: click; visible: true"
+                 event-set__visible2="_target: #eyebrow; _event: click; visible: true"
+                 event-set__visible3="_target: #gorilla; _event: click; visible: true"
+                 event-set__visible4="_target: #caramel; _event: click; visible: true"
+                 event-set__visible5="_target: #adText; _event: click; visible: true"
+                 event-set__visible6="_target: #ChocoText; _event: click; visible: true"
+                 event-set__visible7="_target: #bny; _event: click; visible: true"
+                 event-set__visible8="_target: #frd; _event: click; visible: true">
+        </a-image>
+
+        <a-curvedimage id="teaShop3"
+                       src="#teashopHistory"
+                       position="-17.5 4.5 10"
+                       theta-length="90"
+                       theta-start="135"
+                       radius="48"
+                       width="16"
+                       height="9"
+                       pauser-3
+                       visible="false">
+        </a-curvedimage>
+
+        <a-image id="teaShop4"
+                 src="#johnCadbury"
+                 position="5 1.5 -27.5"
+                 rotation="0 -42 0"
+                 scale="1 1 1"
+                 sound="src: #AmtFtgNar;
+                        on:click;
+                        max-distance: 5;
+                        distance-model: linear;"
+                 visible="false">
+        </a-image>
+
+        <a-image id="adText" src="#text1" width="4" height="2.25" position="-21.5 1.6 -34" rotation="0 55.5 0" visible="false"> </a-image>
+        <a-video id="eyebrow" src="#ad1" width="4" height="2.25" position="-23.685 1.6 -30" rotation="0 69 0" pauser-1 visible="false"></a-video>
+        <a-video id="gorilla" src="#ad2" width="4" height="2.25" position="-18.752 1.6 -37.211" rotation="0 42 0" pauser-2 visible="false"></a-video>
+        <a-video id="caramel" src="#ad3" width="4" height="2.25" position="-9.076 1.6 -40" rotation="0 15 0" pauser-4 visible="false"
+                 event-set__visible1="_target: #conclusionIMG; _event: click; visible: true"></a-video>
+
+        <a-image id="ChocoText" src="#text2" width="5.9" height="2.25" position="-14.158 1.6 -39.337" rotation="0 15 0" visible="false"> </a-image>
+        <a-image id="bny" src="#crmlBny" width="1.25" height="2.25" position="-7 1.6 -40.553" rotation="0 15 0" visible="false"> </a-image>
+        <a-image id="frd" src="#freddo" width="0.9" height="0.65" position="-6.71 0.794 -40.623" rotation="0 15 0" visible="false"> </a-image>
+
+        <a-image id="conclusionIMG"
+        src="#johnCadbury"
+        position="0 1.6 -40"
+        rotation="0 0 0"
+        scale="3 3 3"
+        sound="src: #conclusion;
+               on:click;
+               max-distance: 5;
+               distance-model: linear;"
+        visible="false">
+</a-image>
+
+    </a-scene>
+</body>
+
+</html>
